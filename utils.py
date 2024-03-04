@@ -1,15 +1,10 @@
 import pandas as pd
 
-FILE_PATH = 'Data Cadangan Devisa Indonesia.xlsx'
+FILE_PATH = 'data.csv'
 
 
-def read_data(sheet_name='summary long'):
-    df = pd.read_excel(FILE_PATH, sheet_name=sheet_name)
-    return df
-
-
-def read_data_detail():
-    df = pd.read_excel(FILE_PATH, sheet_name='detail cadangan lain long')
+def read_data():
+    df = pd.read_csv(FILE_PATH)
     return df
 
 
@@ -18,4 +13,17 @@ def get_year():
     return list(df['Tahun'].values)
 
 
-print(read_data().head())
+def get_data_line_chart():
+    df = read_data()
+    data = df.to_dict('list')
+    return data
+
+
+def get_data_summary_line():
+    df = read_data()
+    col = [col for col in df.columns if col != 'Tahun']
+    df['Total'] = df[col].sum(axis=1)
+    return df[['Tahun', 'Total']].to_dict('list')
+
+
+# print(get_data_summary_line())
